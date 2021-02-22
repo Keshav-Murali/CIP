@@ -1,0 +1,5 @@
+1) Test Javascript objects + conversion to JSON
+2) Fragment content - creation, deletion, modification
+3) MongoDB
+4) Graph data structure
+
