@@ -10,7 +10,9 @@ Images: ongoing not possible with stringify/parse shit
 get the .src attribute as string and assign
 
 
-Video & Audio: use currentSrc, same thing as Images
+Video & Audio: use currentSrc, same thing as Images. src also works
+audio controls id...src...
+video controls id...src.. seems to be required!
 
 Need to design JSON objects for this stuff
 

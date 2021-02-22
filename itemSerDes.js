@@ -19,7 +19,13 @@ function serializeItem(a)
     }
 
     else if (a.nodeName == "AUDIO" || a.nodeName == "VIDEO") {
-	alert(a.src);
+	var ntype = a.nodeName.toLowerCase();
+	if(a.src == "")
+	    var src = a.currentSrc;
+	else
+	    var src = a.src;
+	
+	obj = {type : ntype, content: src}
     }
 
     else {
@@ -42,9 +48,11 @@ function deSerializeItem(str)
     }
 
     else if (tmp.type == "audio") {
+	return tmp.content;
     }
 
     else if (tmp.type == "video") {
+	return tmp.content;
     }
 
     else {}

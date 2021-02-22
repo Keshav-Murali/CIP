@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <title>Test item serialization and deserialization</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-
-    <!-- Script here -->
-    <script src="../../itemSerDes.js"></script>
   </head>
 
   <body>
@@ -17,9 +14,11 @@
     <img id="timage" src="img.jpg">
     <img id="outtimage" src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png">
     <h2>Audio</h2>
-    <audio id="taudio"></audio>
+    <audio controls id="taudio" src="audio.mp3"></audio>
     <h2>Video</h2>
-    <video id="tvideo"></video>
+    <video controls id="tvideo">
+      <source src="video.mp4"> 
+    </video>
 
     <h1>Serialized Results</h1>
     <h2>Paragraph</h2>
@@ -39,14 +38,15 @@
     <img id="dimage">
     <img id="outdimage">
     <h2>Audio</h2>
-    <audio id="daudio"></audio>
+    <audio controls id="daudio"></audio>
     <h2>Video</h2>
-    <video id="dvideo"></video>
+    <video controls id="dvideo"></video>
     
 
-    
+    <!-- Script here -->
+    <script src="../../itemSerDes.js"></script>
 
-      <!-- Driver here -->
+    <!-- Driver here -->
     <script>
       document.getElementById("spara").innerHTML = serializeItem(document.getElementById("tpara"));
       document.getElementById("dpara").innerHTML = deSerializeItem(document.getElementById("spara").innerHTML);
@@ -55,6 +55,12 @@
       document.getElementById("dimage").src = deSerializeItem(document.getElementById("simage").innerHTML);
       document.getElementById("outsimage").innerHTML = serializeItem(document.getElementById("outtimage"));
       document.getElementById("outdimage").src = deSerializeItem(document.getElementById("outsimage").innerHTML);
+
+      document.getElementById("saudio").innerHTML = serializeItem(document.getElementById("taudio"));
+      document.getElementById("daudio").src = deSerializeItem(document.getElementById("saudio").innerHTML);
+
+      document.getElementById("svideo").innerHTML = serializeItem(document.getElementById("tvideo"));
+      document.getElementById("dvideo").src = deSerializeItem(document.getElementById("svideo").innerHTML);
 
     </script>
       
