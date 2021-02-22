@@ -1,0 +1,6 @@
+# ignore emacs temp files
+*~
+# ignore my html template
+template.html
+# ignore WSL stuff
+*Zone.Identifier*

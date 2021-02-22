@@ -1,0 +1,18 @@
+Paragraphs:
+JSON.stringify returns a string that perfectly preserves the paragraph
+(JSON.stringify the innerHTML)
+Restore the para by using JSON.parse on the string
+
+if x is the element, str = JSON.stringify(x.innerHTML)
+then if y is a new element, y.innerHTML = JSON.parse(str)
+
+Images: ongoing not possible with stringify/parse shit
+get the .src attribute as string and assign
+
+
+Video & Audio: use currentSrc, same thing as Images
+
+Need to design JSON objects for this stuff
+
+
+

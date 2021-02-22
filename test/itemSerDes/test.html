@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Test item serialization and deserialization</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+
+    <!-- Script here -->
+    <script src="../../itemSerDes.js"></script>
+  </head>
+
+  <body>
+    <h1>Test items</h1>
+    <h2>Paragraph</h2>
+    <p id="tpara">Hello <em>Emphasised</em> <strong>Strong</strong> World</p>
+    <h2>Images</h2>
+    <img id="timage" src="img.jpg">
+    <img id="outtimage" src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png">
+    <h2>Audio</h2>
+    <audio id="taudio"></audio>
+    <h2>Video</h2>
+    <video id="tvideo"></video>
+
+    <h1>Serialized Results</h1>
+    <h2>Paragraph</h2>
+    <p id="spara"></p>
+    <h2>Images</h2>
+    <p id="simage"></p>
+    <p id="outsimage"></p>
+    <h2>Audio</h2>
+    <p id="saudio"></p>
+    <h2>Video</h2>
+    <p id="svideo"></p>
+
+    <h1>Deserialized items</h1>
+    <h2>Paragraph</h2>
+    <p id="dpara"></p>
+    <h2>Images</h2>
+    <img id="dimage">
+    <img id="outdimage">
+    <h2>Audio</h2>
+    <audio id="daudio"></audio>
+    <h2>Video</h2>
+    <video id="dvideo"></video>
+    
+
+    
+
+      <!-- Driver here -->
+    <script>
+      document.getElementById("spara").innerHTML = serializeItem(document.getElementById("tpara"));
+      document.getElementById("dpara").innerHTML = deSerializeItem(document.getElementById("spara").innerHTML);
+
+      document.getElementById("simage").innerHTML = serializeItem(document.getElementById("timage"));
+      document.getElementById("dimage").src = deSerializeItem(document.getElementById("simage").innerHTML);
+      document.getElementById("outsimage").innerHTML = serializeItem(document.getElementById("outtimage"));
+      document.getElementById("outdimage").src = deSerializeItem(document.getElementById("outsimage").innerHTML);
+
+    </script>
+      
+  </body>
+
+</html>
+
