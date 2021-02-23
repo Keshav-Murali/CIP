@@ -1,5 +1,7 @@
-1) Test Javascript objects + conversion to JSON
+1) Items - create, delete - just verify? Figure out interface?
+Will fragments do this stuff? So do it as part of fragment code?
 2) Fragment content - creation, deletion, modification
-3) MongoDB
-4) Graph data structure
+Will document do creation and deletion?
+3) Design Fragment DS and Graph DS?
+4) Document stuff
 

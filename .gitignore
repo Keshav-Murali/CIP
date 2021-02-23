@@ -1,5 +1,7 @@
 # ignore emacs temp files
 *~
+# ignore emacs locked files
+\#*\#
 # ignore my html template
 template.html
 # ignore WSL stuff
