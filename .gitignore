@@ -6,3 +6,6 @@
 template.html
 # ignore WSL stuff
 *Zone.Identifier*
+# ignore my git push script
+push.sh
+
