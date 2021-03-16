@@ -15,7 +15,7 @@
    </section>
 */
 
-function DOMToJSON(item)
+function DOMToJSObject(item)
 {
     innerContents = item.getElementsByClassName("content")[0];
     
@@ -57,17 +57,23 @@ function DOMToJSON(item)
 	
     }
     else {
-	return "UNKNOWN";
+	obj = {type : "unknown"};
+	return obj;
     }
 									    
+    return obj;
+}
+
+function DOMToJSON(item)
+{
+    obj = DOMToJSObject(item);
     return (JSON.stringify(obj));
 }
 
-// Remember the controls attribute for audio and video
-function JSONToInnerHTML(str) // write a JSON to DOM function later?
+function JSONToInnerHTML(str, tmp) 
 {
-    var tmp = JSON.parse(str);
     var opening = "<div class='content'>";
+    // opening = iconsGen(arg) + opening;
     var closing = "</div>";
     
     if (tmp.type == "text") {
@@ -95,8 +101,18 @@ function JSONToInnerHTML(str) // write a JSON to DOM function later?
 
     else {
 	return "<span color='red'>Unknown element!</span>";
-    }
-	
+    }	
+}
+
+function JSONtoDOM(str)
+{
+    var tmp = JSON.parse(str);
+    
+    var DOMObject = document.createElement("SECTION");
+    DOMObject.className = tmp.type;
+    DOMObject.innerHTML = JSONToInnerHTML(str, tmp);
+
+    return DOMObject;
 }
 
 // A stub for now, expand this later
