@@ -6,23 +6,62 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
   </head>
 
+  <!-- Not including any icons or event handlers in the test cases. It shouldn't matter -->
   <body>
     <h1>Test items</h1>
-    <h2>Paragraph</h2>
-    <p id="tpara">Hello <em>Emphasised</em> <strong>Strong</strong> World</p>
+    <h2>Text</h2>
+    <!-- generated using mozilla's example -->
+    <section class="text" id="ttext">
+      <div class="content">
+	<p>Lorem ipsum<br></p><p>asdasd<b>basdd <i>dadad</i></b><i>dadad<u>bbbbb</u></i></p><p><i><u><span style="background-color: red;">abcd<font color="blue">bad</font></span></u></i></p><pre><font size="5" face="Courier New">dddd <br><br></font><pre>ddasdaswww <br></pre></pre><p><i><u><span style="background-color: red;"></span></u></i></p><p><i><u><span style="background-color: red;"><font color="blue"><br></font></span></u></i></p><p><i><u><span style="background-color: red;"><font color="blue"></font></span></u></i><br></p>
+      </div>
+    </section>
+    
     <h2>Images</h2>
-    <img id="timage" src="img.jpg">
-    <img id="outtimage" src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png">
+    <section class="image" id="timage">
+      <div class="content">
+	<img src="img.jpg">
+      </div>
+    </section>
+    <section class="image" id= "outtimage">
+      <div class="content">
+	<img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png">
+      </div>
+    </section>
+    
     <h2>Audio</h2>
-    <audio controls id="taudio" src="audio.mp3"></audio>
+    <section class="audio" id="taudio">
+      <div class="content">
+	<audio controls id="taudio" src="audio.mp3"></audio>
+      </div>
+    </section>
+    
     <h2>Video</h2>
-    <video controls id="tvideo">
-      <source src="video.mp4"> 
-    </video>
+    <section class="video" id="tvideo">
+      <div class="content">
+	<video controls id="tvideo">
+	  <source src="video.mp4">
+	</video>
+      </div>
+    </section>
 
-    <h1>Serialized Results</h1>
+    <h2>Links</h2>
+    <section class="link" id="tlink">
+      <div class="content">
+	<a href="https://www.google.com/" class="original_link">Link to content</a>
+	<a href="goog.html" class="archived_link">(Archive)</a>
+      </div>
+    </section>
+    <section class="link" id="tlink2">
+      <div class="content">
+	<a href="https://www.yahoo.com" class="original_link">Link to content</a>
+      </div>
+    </section>
+    
+    
+    <h1>JSON encoded results</h1>
     <h2>Paragraph</h2>
-    <p id="spara"></p>
+    <p id="stext"></p>
     <h2>Images</h2>
     <p id="simage"></p>
     <p id="outsimage"></p>
@@ -30,37 +69,49 @@
     <p id="saudio"></p>
     <h2>Video</h2>
     <p id="svideo"></p>
+    <h2>Links</h2>
+    <p id="slink"></p>
+    <p id="slink2"></p>
 
-    <h1>Deserialized items</h1>
+    <h1>Regenerated items</h1>
     <h2>Paragraph</h2>
-    <p id="dpara"></p>
+    <section id="dtext"></section>
     <h2>Images</h2>
-    <img id="dimage">
-    <img id="outdimage">
+    <section id="dimage"></section>
+    <section id="outdimage"></section>
     <h2>Audio</h2>
-    <audio controls id="daudio"></audio>
+    <section id="daudio"></section>
     <h2>Video</h2>
-    <video controls id="dvideo"></video>
-    
+    <section id="dvideo"></section>
+    <h2>Link</h2>
+    <section id="dlink"></section>
+    <section id="dlink2"></section>
 
     <!-- Script here -->
-    <script src="../../itemSerDes.js"></script>
+    <script src="../../itemConv.js"></script>
 
     <!-- Driver here -->
     <script>
-      document.getElementById("spara").innerHTML = serializeItem(document.getElementById("tpara"));
-      document.getElementById("dpara").innerHTML = deSerializeItem(document.getElementById("spara").innerHTML);
+      document.getElementById("stext").textContent = DOMToJSON(document.getElementById("ttext"));
+      document.getElementById("dtext").innerHTML = JSONToInnerHTML(document.getElementById("stext").textContent);
 
-      document.getElementById("simage").innerHTML = serializeItem(document.getElementById("timage"));
-      document.getElementById("dimage").src = deSerializeItem(document.getElementById("simage").innerHTML);
-      document.getElementById("outsimage").innerHTML = serializeItem(document.getElementById("outtimage"));
-      document.getElementById("outdimage").src = deSerializeItem(document.getElementById("outsimage").innerHTML);
+      document.getElementById("simage").textContent = DOMToJSON(document.getElementById("timage"));
+      document.getElementById("dimage").innerHTML = JSONToInnerHTML(document.getElementById("simage").textContent);
+      
+      document.getElementById("outsimage").textContent = DOMToJSON(document.getElementById("outtimage"));
+      document.getElementById("outdimage").innerHTML = JSONToInnerHTML(document.getElementById("outsimage").textContent);
 
-      document.getElementById("saudio").innerHTML = serializeItem(document.getElementById("taudio"));
-      document.getElementById("daudio").src = deSerializeItem(document.getElementById("saudio").innerHTML);
+      document.getElementById("saudio").textContent = DOMToJSON(document.getElementById("taudio"));
+      document.getElementById("daudio").innerHTML = JSONToInnerHTML(document.getElementById("saudio").textContent);
 
-      document.getElementById("svideo").innerHTML = serializeItem(document.getElementById("tvideo"));
-      document.getElementById("dvideo").src = deSerializeItem(document.getElementById("svideo").innerHTML);
+      document.getElementById("svideo").textContent = DOMToJSON(document.getElementById("tvideo"));
+            document.getElementById("dvideo").innerHTML = JSONToInnerHTML(document.getElementById("svideo").textContent);
+
+      document.getElementById("slink").textContent = DOMToJSON(document.getElementById("tlink"));
+      document.getElementById("dlink").innerHTML = JSONToInnerHTML(document.getElementById("slink").textContent);
+      
+      document.getElementById("slink2").textContent = DOMToJSON(document.getElementById("tlink2"));
+      document.getElementById("dlink2").innerHTML = JSONToInnerHTML(document.getElementById("slink2").textContent);
 
     </script>
       

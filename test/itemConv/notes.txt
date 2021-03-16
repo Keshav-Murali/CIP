@@ -16,5 +16,7 @@ video controls id...src.. seems to be required!
 
 Need to design JSON objects for this stuff
 
+text divs = perfectly preserved by taking the innerHTML, creating a new div and putting there. Good.
+
 
 

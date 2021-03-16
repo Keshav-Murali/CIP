@@ -1,4 +1,5 @@
 1) Items - create, delete - just verify? Figure out interface?
+Rewrite first?
 Will fragments do this stuff? So do it as part of fragment code?
 2) Fragment content - creation, deletion, modification
 Will document do creation and deletion?
