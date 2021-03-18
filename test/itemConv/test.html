@@ -93,25 +93,25 @@
     <!-- Driver here -->
     <script>
       document.getElementById("stext").textContent = DOMToJSON(document.getElementById("ttext"));
-      document.getElementById("dtext").innerHTML = JSONToInnerHTML(document.getElementById("stext").textContent, JSON.parse(document.getElementById("stext").textContent));
+      document.getElementById("dtext").innerHTML = JSONToInnerHTML(JSON.parse(document.getElementById("stext").textContent));
 
       document.getElementById("simage").textContent = DOMToJSON(document.getElementById("timage"));
-      document.getElementById("dimage").innerHTML = JSONToInnerHTML(document.getElementById("simage").textContent, JSON.parse(document.getElementById("simage").textContent));
+      document.getElementById("dimage").innerHTML = JSONToInnerHTML(JSON.parse(document.getElementById("simage").textContent));
       
       document.getElementById("outsimage").textContent = DOMToJSON(document.getElementById("outtimage"));
-      document.getElementById("outdimage").innerHTML = JSONToInnerHTML(document.getElementById("outsimage").textContent, JSON.parse(document.getElementById("outsimage").textContent));
+      document.getElementById("outdimage").innerHTML = JSONToInnerHTML(JSON.parse(document.getElementById("outsimage").textContent));
 
       document.getElementById("saudio").textContent = DOMToJSON(document.getElementById("taudio"));
-      document.getElementById("daudio").innerHTML = JSONToInnerHTML(document.getElementById("saudio").textContent, JSON.parse(document.getElementById("saudio").textContent));
+      document.getElementById("daudio").innerHTML = JSONToInnerHTML(JSON.parse(document.getElementById("saudio").textContent));
 
       document.getElementById("svideo").textContent = DOMToJSON(document.getElementById("tvideo"));
-      document.getElementById("dvideo").innerHTML = JSONToInnerHTML(document.getElementById("svideo").textContent, JSON.parse(document.getElementById("svideo").textContent));
+      document.getElementById("dvideo").innerHTML = JSONToInnerHTML(JSON.parse(document.getElementById("svideo").textContent));
 
       document.getElementById("slink").textContent = DOMToJSON(document.getElementById("tlink"));
-      document.getElementById("dlink").innerHTML = JSONToInnerHTML(document.getElementById("slink").textContent, JSON.parse(document.getElementById("slink").textContent));
+      document.getElementById("dlink").innerHTML = JSONToInnerHTML(JSON.parse(document.getElementById("slink").textContent));
       
       document.getElementById("slink2").textContent = DOMToJSON(document.getElementById("tlink2"));
-      document.getElementById("dlink2").innerHTML = JSONToInnerHTML(document.getElementById("slink2").textContent, JSON.parse(document.getElementById("slink2").textContent));
+      document.getElementById("dlink2").innerHTML = JSONToInnerHTML(JSON.parse(document.getElementById("slink2").textContent));
 
     </script>
       

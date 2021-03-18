@@ -1,3 +1,6 @@
+//export{ DOMToJSObject, DOMToJSON,
+//	JSONToDOM, JSONToInnerHTML};
+
 /* 
    Items <-> JSON
 
@@ -70,7 +73,7 @@ function DOMToJSON(item)
     return (JSON.stringify(obj));
 }
 
-function JSONToInnerHTML(str, tmp) 
+function JSONToInnerHTML(tmp) 
 {
     var opening = "<div class='content'>";
     // opening = iconsGen(arg) + opening;
@@ -110,7 +113,7 @@ function JSONtoDOM(str)
     
     var DOMObject = document.createElement("SECTION");
     DOMObject.className = tmp.type;
-    DOMObject.innerHTML = JSONToInnerHTML(str, tmp);
+    DOMObject.innerHTML = JSONToInnerHTML(tmp);
 
     return DOMObject;
 }
@@ -122,3 +125,5 @@ function iconsGen(arg)
     // should return something that will be concatenated with the generated "content" div and placed in innerHTML of a section
     return "<span>Icons<br></span>";
 }
+
+
