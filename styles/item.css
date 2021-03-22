@@ -1,0 +1,15 @@
+/* Modify if too general */
+span.itemIcons img {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+span.itemIcons {
+    display: block;
+    margin : auto;
+}
+
+section.video video {
+    max-width: 25%;
+}

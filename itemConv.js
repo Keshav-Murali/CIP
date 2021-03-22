@@ -76,7 +76,8 @@ function DOMToJSON(item)
 function JSONToInnerHTML(tmp) 
 {
     var opening = "<div class='content'>";
-    // opening = iconsGen(arg) + opening;
+    // fix dummy argument
+    opening = iconsGen("dummy argument") + opening;
     var closing = "</div>";
     
     if (tmp.type == "text") {
@@ -122,8 +123,14 @@ function JSONtoDOM(str)
 function iconsGen(arg)
 // argument - what will it be?
 {
-    // should return something that will be concatenated with the generated "content" div and placed in innerHTML of a section
-    return "<span>Icons<br></span>";
+    str = "<span class='itemIcons'><img src='/icon/edit.png'> <img src='/icon/delete.png' onclick='deleteItem(this.parentNode.parentNode)'></span>";
+    return str;
 }
 
 
+function deleteItem(DOMObject)
+{
+    ret = confirm("The element will be deleted!");
+    if (ret)
+	DOMObject.remove();
+}
