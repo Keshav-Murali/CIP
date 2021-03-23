@@ -12,6 +12,10 @@
 
   <!-- Not including any icons or event handlers in the test case yet. It shouldn't matter -->
   <body>
+    <!-- include forms -->
+    <?php
+     require $_SERVER['DOCUMENT_ROOT'].'forms.php';
+     ?>
     <h1>Test fragment</h1>
     <article class="fragment" id="tfrag">
       <h2 class="title">Fragment1</h2>
@@ -90,6 +94,7 @@
       document.getElementById("sfrag").textContent = fragmentToJSON(document.getElementById("tfrag"));
       var marker = document.getElementById("dfrag-marker");
       marker.parentNode.insertBefore(fragJSONToDOM(document.getElementById("sfrag").textContent), marker);
+      alert(JSON.stringify(fragJSONToDOM(document.getElementById("sfrag").textContent)));
 </script>
       
   </body>

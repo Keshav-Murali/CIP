@@ -2,7 +2,7 @@
 *~
 # ignore emacs locked files
 \#*\#
-# ignore my html template
+# ignore my html template - is this needed? let it be?
 template.html
 template.php
 # ignore WSL stuff

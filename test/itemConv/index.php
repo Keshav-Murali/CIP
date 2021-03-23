@@ -12,7 +12,10 @@
 
   <!-- Not including any icons or event handlers in the test cases. It shouldn't matter -->
   <body>
-    <h1>Test items</h1>
+    <!-- include forms -->
+    <?php
+     require $_SERVER['DOCUMENT_ROOT'].'/includes/forms.html';
+     ?>    <h1>Test items</h1>
     <h2>Text</h2>
     <!-- generated using mozilla's example -->
     <section class="text" id="ttext">

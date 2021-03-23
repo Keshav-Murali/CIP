@@ -123,7 +123,7 @@ function JSONtoDOM(str)
 function iconsGen(arg)
 // argument - what will it be?
 {
-    str = "<span class='itemIcons'><img src='/icon/edit.png'> <img src='/icon/delete.png' onclick='deleteItem(this.parentNode.parentNode)'></span>";
+    str = "<span class='itemIcons'><img src='/icon/edit.png' onclick='editItem(this.parentNode.parentNode)'> <img src='/icon/delete.png' onclick='deleteItem(this.parentNode.parentNode)'></span>";
     return str;
 }
 
@@ -134,3 +134,40 @@ function deleteItem(DOMObject)
     if (ret)
 	DOMObject.remove();
 }
+
+function editItem(DOMObject)
+{
+    document.getElementsByClassName("overlay")[0].style.display="block";
+    
+    if(DOMObject.className == "text")
+	editText(DOMObject);
+
+    else if (DOMObject.className == "image" || DOMObject.className == "audio" || DOMObject.className == "video") {
+	editMedia(DOMObject, DOMObject.className);
+    }
+
+    else {
+	alert("Links not supported yet!");
+	// Remove once implemented
+	document.getElementsByClassName("overlay")[0].style.display="none";
+    }
+}
+
+function editText(obj)                                                      {
+    document.getElementById("textEdit").style.display="block";
+    initDoc(obj.getElementsByClassName("content")[0]);   
+}
+
+var currMediaForm;
+
+function editMedia(obj, cName)
+{
+    /*
+    if (obj.className == "image")
+    currMediaForm = 
+    */
+    alert("under implementation");
+    // Remove once implemented
+    document.getElementsByClassName("overlay")[0].style.display="none";
+}
+

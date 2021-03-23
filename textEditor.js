@@ -1,9 +1,13 @@
 var oDoc, sDefTxt;
+var myForm = document.getElementById("textEdit");
+var currentObject;
 
-function initDoc() {
-  oDoc = document.getElementById("textBox");
-  sDefTxt = oDoc.innerHTML;
-  if (document.compForm.switchMode.checked) { setDocMode(true); }
+function initDoc(object) {
+    currentObject = object;
+    oDoc = document.getElementById("formTextBox");
+    oDoc.innerHTML = object.innerHTML;
+    sDefTxt = oDoc.innerHTML;
+    if (myForm.switchMode.checked) { setDocMode(true); }
 }
 
 function formatDoc(sCmd, sValue) {
@@ -11,7 +15,7 @@ function formatDoc(sCmd, sValue) {
 }
 
 function validateMode() {
-  if (!document.compForm.switchMode.checked) { return true ; }
+  if (!myForm.switchMode.checked) { return true ; }
   alert("Uncheck \"Show HTML\".");
   oDoc.focus();
   return false;
@@ -48,4 +52,11 @@ function printDoc() {
   oPrntWin.document.open();
   oPrntWin.document.write("<!doctype html><html><head><title>Print<\/title><\/head><body onload=\"print();\">" + oDoc.innerHTML + "<\/body><\/html>");
   oPrntWin.document.close();
+}
+
+function saveDoc()
+{
+    currentObject.innerHTML = oDoc.innerHTML;
+    myForm.style.display = "none";
+    document.getElementsByClassName("overlay")[0].style.display = "none";
 }
