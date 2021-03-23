@@ -1,13 +1,6 @@
 <!doctype html>
-<html>
-<head>
-<title>Rich Text Editor</title>
-<script type="text/javascript" src="textEditor.js">
-</script>
-<link rel="stylesheet" href="/styles/textEditor.css"> 
-</head>
+<!-- <body onload="initDoc();"> -->
 
-<body onload="initDoc();">
 <form name="compForm" method="post" action="sample.php" onsubmit="if(validateMode()){this.myDoc.value=oDoc.innerHTML;return true;}return false;">
 <input type="hidden" name="myDoc">
 <div id="toolBar1">

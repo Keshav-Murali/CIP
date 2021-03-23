@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <title>Test item <-> JSON conversions</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-
-    <!-- styles -->
-    <link rel="stylesheet" href="/styles/item.css">
+    <!-- include styles -->
+    <?php
+     include $_SERVER['DOCUMENT_ROOT']."/includes/styles.html";
+    ?>
   </head>
 
   <!-- Not including any icons or event handlers in the test cases. It shouldn't matter -->
@@ -90,9 +91,11 @@
     <section id="dlink"></section>
     <section id="dlink2"></section>
 
-    <!-- Script here -->
-    <script src="/itemConv.js"></script>
-
+    <!-- include scripts -->
+    <?php
+     include $_SERVER['DOCUMENT_ROOT']."/includes/scripts.html";
+     ?>
+    
     <!-- Driver here -->
     <script>
       document.getElementById("stext").textContent = DOMToJSON(document.getElementById("ttext"));

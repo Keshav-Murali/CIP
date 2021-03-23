@@ -4,8 +4,11 @@
 \#*\#
 # ignore my html template
 template.html
+template.php
 # ignore WSL stuff
 *Zone.Identifier*
 # ignore my git push script
 push.sh
+# ignore launching of apache
+apache.sh
 
