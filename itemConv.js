@@ -18,6 +18,8 @@
    </section>
 */
 
+var currMediaObject;
+
 function DOMToJSObject(item)
 {
     innerContents = item.getElementsByClassName("content")[0];
@@ -119,9 +121,7 @@ function JSONtoDOM(str)
     return DOMObject;
 }
 
-// A stub for now, expand this later
 function iconsGen(arg)
-// argument - what will it be?
 {
     str = "<span class='itemIcons'><img src='/icon/edit.png' onclick='editItem(this.parentNode.parentNode)'> <img src='/icon/delete.png' onclick='deleteItem(this.parentNode.parentNode)'></span>";
     return str;
@@ -143,13 +143,13 @@ function editItem(DOMObject)
 	editText(DOMObject);
 
     else if (DOMObject.className == "image" || DOMObject.className == "audio" || DOMObject.className == "video") {
-	editMedia(DOMObject, DOMObject.className);
+	editMedia(DOMObject);
     }
 
     else {
 	alert("Links not supported yet!");
 	// Remove once implemented
-	document.getElementsByClassName("overlay")[0].style.display="none";
+//	document.getElementsByClassName("overlay")[0].style.display="none";
     }
 }
 
@@ -158,16 +158,60 @@ function editText(obj)                                                      {
     initDoc(obj.getElementsByClassName("content")[0]);   
 }
 
-var currMediaForm;
-
-function editMedia(obj, cName)
+function editMedia(obj)
 {
-    /*
+    var mediaObjectTag;
+    
     if (obj.className == "image")
-    currMediaForm = 
-    */
-    alert("under implementation");
-    // Remove once implemented
-    document.getElementsByClassName("overlay")[0].style.display="none";
+	mediaObjectTag = "img";
+    else
+	mediaObjectTag = obj.className;
+    
+    currMediaObject = obj.getElementsByClassName("content")[0].getElementsByTagName(mediaObjectTag)[0];
+    
+    var mediaForm = document.getElementById("mediaEdit");
+    var str = "Modify ";
+    var file_input = mediaForm.getElementsByClassName("file")[0];
+    
+    mediaForm.getElementsByClassName("title")[0].textContent = str + obj.className;
+    mediaForm.getElementsByClassName("frag")[0].readonly = false;
+    mediaForm.getElementsByClassName("frag")[0].value = obj.parentNode.parentNode.id;
+    mediaForm.getElementsByClassName("frag")[0].readonly = true;
+    
+    
+    file_input.accept = obj.className + "/*";
+        
+    document.getElementsByClassName("overlay")[0].style.display="block";
+    document.getElementById("mediaEdit").style.display = "block";
 }
 
+function submitMedia(media_form)
+{
+    var f = media_form.getElementsByClassName("file")[0].files;
+    if (f.length == 0) {
+	alert("No modifications were done!");
+	return;
+    }
+    else {
+	var mForm = document.getElementById("mediaEdit");
+	var formData = new FormData(mForm);
+	
+	var xmlHttp = new XMLHttpRequest();
+	xmlHttp.onreadystatechange = function()
+	{
+	    if(xmlHttp.readyState == 4 && xmlHttp.status == 200)
+	    {
+		currMediaObject.src = xmlHttp.responseText;
+	    }
+	}
+	xmlHttp.open("post", "/upload.php");
+	xmlHttp.send(formData); 
+    }
+    // action="/upload.php" method="POST"
+}
+
+function closeMediaForm()
+{
+    document.getElementById("mediaEdit").style.display = "none";
+    document.getElementsByClassName("overlay")[0].style.display = "none";
+}

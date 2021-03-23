@@ -11,4 +11,9 @@ template.php
 push.sh
 # ignore launching of apache
 apache.sh
+# ignore the archived files
+*_files
+# ignore uploaded shit
+fragments/**
+
 
