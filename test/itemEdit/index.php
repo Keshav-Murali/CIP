@@ -18,7 +18,7 @@
     <h1>JSON encoded fragment</h1>
     <p id="sfrag"></p>
 
-    <h1>Regenerated fragment</h1>
+    <h1>Generated fragment</h1>
 
     <p id="dfrag-marker"></p>
     <!-- include scripts -->

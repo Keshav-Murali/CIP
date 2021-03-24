@@ -123,10 +123,64 @@ function JSONtoDOM(str)
 
 function iconsGen(arg)
 {
-    str = "<span class='itemIcons'><img src='/icon/edit.png' onclick='editItem(this.parentNode.parentNode)'> <img src='/icon/delete.png' onclick='deleteItem(this.parentNode.parentNode)'></span>";
+    str = "<span class='itemIcons'><img src='/icon/edit.png' onclick='editItem(this.parentNode.parentNode)'> <img src='/icon/delete.png' onclick='deleteItem(this.parentNode.parentNode)'> <span onclick='moveUp(this.parentNode.parentNode)'>&uparrow;</span> <span onclick='moveDown(this.parentNode.parentNode)'>&downarrow;</span></span>";
     return str;
 }
 
+function moveUp(obj)
+{
+    var parent = obj.parentNode;
+    // handles both top, and the case where it is the only child
+    if (parent.children[0] == obj) {
+	alert("Already at top!");
+	return;
+    }
+
+    var i;
+    for(i = 0; i < parent.children.length; i++)
+    {
+	if (obj == parent.children[i])
+	    break;
+    }
+
+    var next = parent.removeChild(parent.children[i - 1]);
+
+    if (parent.children.length > 1) {
+	parent.insertBefore(next, parent.children[i]);
+    }
+
+    else {
+	parent.appendChild(next);
+    }
+}
+
+function moveDown(obj)
+{
+    var parent = obj.parentNode;
+    // handles both top, and the case where it is the only child
+    if (parent.children[parent.children.length - 1] == obj)
+    {
+	alert("Already at bottom!");
+	return;
+    }
+
+    var i;
+    for(i = 0; i < parent.children.length; i++)
+    {
+	if (obj == parent.children[i])
+	    break;
+    }
+
+    var prev = parent.removeChild(parent.children[i + 1]);
+
+    if (parent.children.length > 1) {
+	parent.insertBefore(prev, parent.children[i]);
+    }
+
+    else {
+	parent.prepend(prev);
+    }
+}
 
 function deleteItem(DOMObject)
 {
