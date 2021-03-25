@@ -2,10 +2,18 @@
 *~
 # ignore emacs locked files
 \#*\#
-# ignore my html template
+# ignore my html template - is this needed? let it be?
 template.html
+template.php
 # ignore WSL stuff
 *Zone.Identifier*
 # ignore my git push script
 push.sh
+# ignore launching of apache
+apache.sh
+# ignore the archived files
+*_files
+# ignore uploaded shit
+fragments/**
+
 

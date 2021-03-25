@@ -4,10 +4,18 @@
     <meta charset="UTF-8">
     <title>Test fragment <-> JSON</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <!-- include styles -->
+    <?php
+     require $_SERVER['DOCUMENT_ROOT'].'/includes/styles.html';
+     ?>
   </head>
 
   <!-- Not including any icons or event handlers in the test case yet. It shouldn't matter -->
   <body>
+    <!-- include forms -->
+    <?php
+     require $_SERVER['DOCUMENT_ROOT'].'forms.php';
+     ?>
     <h1>Test fragment</h1>
     <article class="fragment" id="tfrag">
       <h2 class="title">Fragment1</h2>
@@ -76,16 +84,17 @@
     <h1>Regenerated fragment</h1>
 
     <p id="dfrag-marker"></p>
-
-    <!-- Script here -->
-    <script src="../../itemConv.js"></script>
-    <script src="../../fragConv.js"></script>
+    <!-- include scripts -->
+    <?php
+     require $_SERVER['DOCUMENT_ROOT'].'/includes/scripts.html';
+     ?>
     
     <!-- Driver here -->
     <script>
       document.getElementById("sfrag").textContent = fragmentToJSON(document.getElementById("tfrag"));
       var marker = document.getElementById("dfrag-marker");
       marker.parentNode.insertBefore(fragJSONToDOM(document.getElementById("sfrag").textContent), marker);
+      alert(JSON.stringify(fragJSONToDOM(document.getElementById("sfrag").textContent)));
 </script>
       
   </body>

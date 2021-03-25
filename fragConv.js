@@ -55,7 +55,7 @@ function fragJSONToDOM(str)
     target = DOMObject.getElementsByClassName("content")[0];
     // does this need changing? it's stupid
     for(i = 0; i < obj.items.length; i++)
-	target.appendChild(JSONtoDOM(JSON.stringify(items[i])));
+	target.appendChild(JSONtoDOM(JSON.stringify(obj.items[i])));
 				
     return DOMObject;
 }
