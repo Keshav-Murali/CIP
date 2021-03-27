@@ -25,27 +25,41 @@ function DOMToJSObject(item)
     innerContents = item.getElementsByClassName("content")[0];
     
     if (item.className == "text") {
-	obj = {type : "text", content : innerContents.innerHTML};
+	obj = {type : item.className, content : innerContents.innerHTML};
     }
 
     else if (item.className == "image") {
-	obj = {type : "image", content : innerContents.getElementsByTagName("IMG")[0].src}
+	var tmp = item.getElementsByClassName("desc");
+	if (tmp.length == 0)
+	    desc = "";
+	else
+	    desc = tmp[0].textContent;
+	var l = innerContents.getElementsByTagName("IMG")[0].src
+	l = l.replace("http://localhost", "");
+	obj = {type : item.className, desc : desc, content : l}
+
     }
 	      
     else if (item.className == "audio" || item.className == "video") {
+	var tmp = item.getElementsByClassName("desc");
+	if (tmp.length == 0)
+	    desc = "";
+	else
+	    desc = tmp[0].textContent;
+	
 	var temp = innerContents.getElementsByTagName("audio");
 	if (temp.length == 0)
 	    temp = innerContents.getElementsByTagName("video");
 	
 	var it = temp[0];
 	
-	var ntype = it.nodeName.toLowerCase();
 	if(it.src == "")
 	    var src = it.currentSrc;
 	else
 	    var src = it.src;
+	src = src.replace("http://localhost", "");
 	
-	obj = {type : ntype, content: src}
+	obj = {type : item.className, desc: desc, content: src}
     }
 
     else if (item.className == "link") {
@@ -57,7 +71,7 @@ function DOMToJSObject(item)
 	    var archived = "";
 	else
 	    archived = temp[0].href;
-
+	archived = archived.replace("http://localhost", "");
 	obj = {type : "link", original_link : original, original_text: original_text, archived_link : archived}
 	
     }
@@ -87,11 +101,13 @@ function JSONToInnerHTML(tmp)
     }
 
     else if (tmp.type == "image") {
-	return opening + "<img src='" + tmp.content + "'>" + closing;
+	var t = "<p class='desc'>" + tmp.desc + "</p>";
+	return t + opening + "<img src='" + tmp.content + "'>" + closing;
     }
 
     else if (tmp.type == "audio" || tmp.type == "video") {
-	return opening + "<" + tmp.type + " controls src='" + tmp.content + "'>" + closing;
+	var t = "<p class='desc'>" + tmp.desc + "</p>";
+	return t + opening + "<" + tmp.type + " controls src='" + tmp.content + "'>" + closing;
     }
 
     else if (tmp.type == "link") {
@@ -224,6 +240,8 @@ function editMedia(obj)
     currMediaObject = obj.getElementsByClassName("content")[0].getElementsByTagName(mediaObjectTag)[0];
     
     var mediaForm = document.getElementById("mediaEdit");
+    mediaForm.reset();
+    
     var str = "Modify ";
     var file_input = mediaForm.getElementsByClassName("file")[0];
     
@@ -231,7 +249,7 @@ function editMedia(obj)
     mediaForm.getElementsByClassName("frag")[0].readonly = false;
     mediaForm.getElementsByClassName("frag")[0].value = obj.parentNode.parentNode.id;
     mediaForm.getElementsByClassName("frag")[0].readonly = true;
-    
+    mediaForm.getElementsByClassName("desc")[0].value = obj.getElementsByClassName("desc")[0].textContent;
     
     file_input.accept = obj.className + "/*";
         
@@ -243,7 +261,7 @@ function submitMedia(media_form)
 {
     var f = media_form.getElementsByClassName("file")[0].files;
     if (f.length == 0) {
-	alert("No modifications were done!");
+	currMediaObject.parentNode.parentNode.getElementsByClassName("desc")[0].textContent = media_form.getElementsByClassName("desc")[0].value;
 	return;
     }
     else {

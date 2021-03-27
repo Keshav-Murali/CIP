@@ -26,11 +26,13 @@
     
     <h2>Images</h2>
     <section class="image" id="timage">
+      <p class="desc">An image</p>
       <div class="content">
 	<img src="../resources/img.jpg">
       </div>
     </section>
     <section class="image" id= "outtimage">
+      <p class="desc">Google</p>
       <div class="content">
 	<img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png">
       </div>
@@ -38,6 +40,7 @@
     
     <h2>Audio</h2>
     <section class="audio" id="taudio">
+      <p class="desc">An audio file</p>
       <div class="content">
 	<audio controls id="taudio" src="../resources/audio.mp3"></audio>
       </div>
@@ -45,6 +48,7 @@
     
     <h2>Video</h2>
     <section class="video" id="tvideo">
+      <p class="desc">A video file</p>
       <div class="content">
 	<video controls id="tvideo">
 	  <source src="../resources/video.mp4">

@@ -6,6 +6,8 @@ Remember to change post and max upload size limits
 https://www.cyberciti.biz/faq/increase-file-upload-size-limit-in-php-apache-app/
 can see what version of php using ls
 
+remember to make a folder called fragments - change this???
+
 NOTE IMPORTANT:::
 make sure that files are reset every time the mediaEdit form is opened
 
