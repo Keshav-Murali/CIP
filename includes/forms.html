@@ -75,8 +75,9 @@
 <p><button onclick="saveDoc()" type="button">Save and close</button></p>
 </form>
 
-<form id="mediaEdit" method="post" enctype="multipart/form-data">
+<form id="mediaEdit" name="mediaEdit" method="POST" enctype="multipart/form-data">
   <h2 class="title"></h2>
+  <label for="fragId">FragID</label>
   <input type="text" readonly name="fragId" class="frag"></input><br>
   <label for="desc">Description: </label>
   <input type="text" name="desc" class="desc"></input><br>
@@ -84,6 +85,20 @@
   <input type="file" class="file" id="med" name="med"></input></br>
   <button  type="button" onclick="submitMedia(this.parentNode)">Modify</button>
   <button type="button" onclick="closeMediaForm()" type="button">Close</button>
+</form>
+
+<form id="linkEdit" name="linkEdit" method="POST" enctype="multipart/form-data">
+  <h2 class="title">Modify link</h2>
+  <label for="fragID">FragId</label>
+  <input type="text" readonly name="fragId" class="frag"></input><br>
+  <label for="desc">Description: </label>
+  <input type="text" name="desc" class="desc"></input><br>
+  <label for="link">Link</label>
+  <input type="text" class="link" id="link" name="link"></input></br>
+  <label for="arc">Archive?</label>
+  <input name="arc" class="arc" type="checkbox"></input><br>
+  <button type="button" onclick="archiveLink(this.parentNode)">Modify</button>
+  <button type="button" onclick="closeLinkForm()" type="button">Close</button>
 </form>
 
 

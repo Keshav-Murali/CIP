@@ -12,20 +12,20 @@ if ($_POST)
 	}
 
 	$file_name = $path."/".basename($_FILES['med']['name']);
- 
-	if (file_exists($file_name)) {
-	   $pos = strrpos($file_name, ".");
-	   $tmp = substr($file_name, 0, $pos)."1";
-	   $tmp = $tmp.substr($file_name, $pos);
-	   
-	   move_uploaded_file($_FILES['med']['tmp_name'], $tmp);
-	   $file_name = $tmp;
+	$pos = strrpos($file_name, ".");
+	$base = substr($file_name, 0, $pos);
+	$ext = substr($file_name, $pos);
+
+	$count = 0;
+	$tmp = $base.$ext;
+
+	while (file_exists($tmp)) {
+	   $tmp = $base.strval($count).$ext;
+	   $count = $count + 1;
 	 }
 
-	 else {
-	      move_uploaded_file($_FILES['med']['tmp_name'], $file_name);
-	}
-
+	$file_name = $tmp;
+	move_uploaded_file($_FILES['med']['tmp_name'], $file_name);
 	echo str_replace($_SERVER['DOCUMENT_ROOT'], "", $file_name);
 }
 

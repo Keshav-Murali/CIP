@@ -18,7 +18,7 @@
    </section>
 */
 
-var currMediaObject;
+var currMediaObject, currLinkContainer;
 
 function DOMToJSObject(item)
 {
@@ -217,9 +217,10 @@ function editItem(DOMObject)
     }
 
     else {
-	alert("Links not supported yet!");
-	// Remove once implemented
-//	document.getElementsByClassName("overlay")[0].style.display="none";
+//	alert("Links not supported yet!");
+	//  Remove once implemented
+	//	document.getElementsByClassName("overlay")[0].style.display="none";
+	editLink(DOMObject);
     }
 }
 
@@ -285,5 +286,93 @@ function submitMedia(media_form)
 function closeMediaForm()
 {
     document.getElementById("mediaEdit").style.display = "none";
+    document.getElementsByClassName("overlay")[0].style.display = "none";
+}
+
+
+function editLink(obj)
+{
+    currLinkContainer = obj.getElementsByClassName("content")[0];
+    //    alert(currLinkObject.href);
+    var currLink = currLinkContainer.getElementsByTagName("a")[0]
+    
+    var linkForm = document.getElementById("linkEdit");
+    linkForm.reset();
+    
+    linkForm.getElementsByClassName("frag")[0].readonly = false;
+    linkForm.getElementsByClassName("frag")[0].value = obj.parentNode.parentNode.id;
+    linkForm.getElementsByClassName("frag")[0].readonly = true;
+    linkForm.getElementsByClassName("desc")[0].value = obj.getElementsByClassName("original_link")[0].textContent;
+
+    linkForm.getElementsByClassName("link")[0].value = currLink.href;
+    
+    document.getElementsByClassName("overlay")[0].style.display="block";
+    document.getElementById("linkEdit").style.display = "block";
+}
+
+function archiveLink(link_form)
+{
+    var lForm = document.getElementById("linkEdit");
+    var check = lForm.getElementsByClassName("arc")[0];
+    var link = lForm.getElementsByClassName("link")[0];
+
+    var currLink = currLinkContainer.getElementsByTagName("a")[0]
+
+    if (currLink.href == lForm.getElementsByClassName("link")[0].value) {
+	currLink.textContent = lForm.getElementsByClassName("desc")[0].value;
+	return;
+    }
+
+    //console.log(check.checked);
+    
+    if (check.checked == false) {
+	currLinkContainer.innerHTML = "";
+	var new_link = document.createElement("a");
+	new_link.textContent = lForm.getElementsByClassName("desc")[0].value;
+	new_link.className =  "original_link";
+	new_link.href = lForm.getElementsByClassName("link")[0].value;
+	currLinkContainer.appendChild(new_link);
+
+	return;
+    }
+
+//    console.log("reached below");
+    var formData = new FormData(lForm);
+    
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function()
+    {
+	if(xmlHttp.readyState == 4 && xmlHttp.status == 200)
+	{
+	    currLinkContainer.innerHTML = "";
+	    
+	    var new_link = document.createElement("a");
+	    new_link.textContent = lForm.getElementsByClassName("desc")[0].value;
+	    new_link.className =  "original_link";
+	    new_link.href = lForm.getElementsByClassName("link")[0].value;
+	    currLinkContainer.appendChild(new_link);
+	    currLinkContainer.innerHTML += " ";
+	    
+	    var archived_link = document.createElement("a");
+	    archived_link.textContent = "(Archive)";
+	    
+	    archived_link.className =  "archived_link";
+	    archived_link.href = xmlHttp.responseText;
+	    
+	    currLinkContainer.appendChild(archived_link);
+
+	    console.log(xmlHttp.responseText);
+	    //curr.src = xmlHttp.responseText;
+	}
+    }
+    
+    xmlHttp.open("post", "/archive.php");
+    xmlHttp.send(formData); 
+}
+
+
+function closeLinkForm()
+{
+    document.getElementById("linkEdit").style.display = "none";
     document.getElementsByClassName("overlay")[0].style.display = "none";
 }
