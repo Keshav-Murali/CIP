@@ -83,6 +83,32 @@ function saveFragment(obj)
     xmlHttp.send(formData); 
 }
 
+var global_DOM_Object;
+var fetching = true;
+
+function loadFragment(obj_id, target_parent)
+{
+    var sForm = document.getElementById("saveFrag");
+    sForm.name.value = obj_id;
+    sForm.content.value = " ";
+    
+    var formData = new FormData(sForm);
+	
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function()
+    {
+	if(xmlHttp.readyState == 4 && xmlHttp.status == 200)
+	{
+	    // change later, alerts are annoying
+	    //	    currMediaObject.src = xmlHttp.responseText;
+	    alert("Loaded " + obj_id + " successfully!");
+	    global_DOM_Object = fragJSONToDOM(xmlHttp.responseText);
+	    target_parent.appendChild(global_DOM_Object);
+	}
+    }
+    xmlHttp.open("post", "/load.php");
+    xmlHttp.send(formData);
+}
    
 
 function insertNewText(obj)
