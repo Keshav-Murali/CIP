@@ -8,7 +8,7 @@ if ($_POST)
 	clearstatcache();
 	$path = $_SERVER['DOCUMENT_ROOT']."/fragments/".$_POST['fragId'];
 	if (!file_exists($path)) {
-	   mkdir($path);
+	   mkdir($path, 0777, true);	
 	}
 
 	$file_name = $path."/".basename($_FILES['med']['name']);

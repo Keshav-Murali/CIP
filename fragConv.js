@@ -43,7 +43,7 @@ function fragJSONToDOM(str)
 
     var s = "<h2 class='title'>" + obj.title + "</h2>" +
 	"<span class='fragid'>id: " + obj.id + "<br></span>" + "<div class='tags'><h3>Tags</h3>" + "<span class='tags_list'><ul style='list-style-type: none'></ul></span></div>";
-    s += "<div class='icons'><img src='/icon/inserttext.png' onclick='insertNewText(this.parentNode.parentNode)'> <img src='/icon/insertimage.png' onclick='insertNewImage(this.parentNode.parentNode)'> <img src='/icon/insertaudio.png' onclick='insertNewAudio(this.parentNode.parentNode)'> <img src='/icon/insertvideo.png' onclick='insertNewVideo(this.parentNode.parentNode)'> <img src='/icon/link.png' onclick='insertNewLink(this.parentNode.parentNode)'> </div>"
+    s += "<div class='icons'><img src='/icon/save.png' onclick='saveFragment(this.parentNode.parentNode)'> <img src='/icon/inserttext.png' onclick='insertNewText(this.parentNode.parentNode)'> <img src='/icon/insertimage.png' onclick='insertNewImage(this.parentNode.parentNode)'> <img src='/icon/insertaudio.png' onclick='insertNewAudio(this.parentNode.parentNode)'> <img src='/icon/insertvideo.png' onclick='insertNewVideo(this.parentNode.parentNode)'> <img src='/icon/link.png' onclick='insertNewLink(this.parentNode.parentNode)'> </div>"
     DOMObject.innerHTML = s;
     target = DOMObject.getElementsByTagName("ul")[0];
     
@@ -59,6 +59,31 @@ function fragJSONToDOM(str)
 				
     return DOMObject;
 }
+
+function saveFragment(obj)
+{
+    var sForm = document.getElementById("saveFrag");
+    sForm.name.value = obj.id;
+    sForm.content.value = fragmentToJSON(obj);
+    
+    var formData = new FormData(sForm);
+	
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function()
+    {
+	if(xmlHttp.readyState == 4 && xmlHttp.status == 200)
+	{
+	    // change later, alerts are annoying
+	    //	    currMediaObject.src = xmlHttp.responseText;
+	    alert("Saved " + obj.id + " successfully!");
+	    console.log(xmlHttp.responseText);
+	}
+    }
+    xmlHttp.open("post", "/save.php");
+    xmlHttp.send(formData); 
+}
+
+   
 
 function insertNewText(obj)
 {
