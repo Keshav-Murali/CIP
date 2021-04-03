@@ -5,13 +5,20 @@ span.itemIcons img {
     cursor: pointer;
 }
 
+article.fragment {
+    max-width: 80%;
+}
 
-article div.icons img {
+article div.icons img, article span.editIcon img {
     width: 20px;
     height: 20px;
     cursor: pointer;
 }
 
+#titleTagEdit input[type="text"] {
+    width: 100%;
+ 
+}
 article {
     border: 1px solid black;
 }
@@ -39,3 +46,10 @@ section.video video {
     max-width: 25%;
 }
 
+article.fragment div.tags span.tags_list ul {
+    list-style-type: none;
+}
+
+article.fragment div.tags span.tags_list ul li {
+    display: inline
+}

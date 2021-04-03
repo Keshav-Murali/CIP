@@ -42,13 +42,15 @@ function fragJSONToDOM(str)
     DOMObject.className = "fragment"
 
     var s = "<h2 class='title'>" + obj.title + "</h2>" +
-	"<span class='fragid'>id: " + obj.id + "<br></span>" + "<div class='tags'><h3>Tags</h3>" + "<span class='tags_list'><ul style='list-style-type: none'></ul></span></div>";
+	"<span class='fragid'>id: " + obj.id + " </span>" +
+	"<span class='editIcon'><img src='/icon/edit.png' onclick='editTitleTag(this.parentNode.parentNode)'></span>" + "<br>"
+	s += "<div class='tags'><h3>Tags</h3>" + "<span class='tags_list'><ul></ul></span></div>";
     s += "<div class='icons'><img src='/icon/save.png' onclick='saveFragment(this.parentNode.parentNode)'> <img src='/icon/inserttext.png' onclick='insertNewText(this.parentNode.parentNode)'> <img src='/icon/insertimage.png' onclick='insertNewImage(this.parentNode.parentNode)'> <img src='/icon/insertaudio.png' onclick='insertNewAudio(this.parentNode.parentNode)'> <img src='/icon/insertvideo.png' onclick='insertNewVideo(this.parentNode.parentNode)'> <img src='/icon/link.png' onclick='insertNewLink(this.parentNode.parentNode)'> </div>"
     DOMObject.innerHTML = s;
     target = DOMObject.getElementsByTagName("ul")[0];
     
     for(var i = 0; i < obj.tags.length; i++)
-	target.innerHTML += ("<li style='display: inline'>" + obj.tags[i] + "</li>" + " ");
+	target.innerHTML += ("<li>" + obj.tags[i] + "</li>" + " ");
 
     DOMObject.innerHTML += "<div class='content'></div>";
 
@@ -83,6 +85,7 @@ function saveFragment(obj)
     xmlHttp.send(formData); 
 }
 
+//below two not useful
 var global_DOM_Object;
 var fetching = true;
 
@@ -99,8 +102,11 @@ function loadFragment(obj_id, target_parent)
     {
 	if(xmlHttp.readyState == 4 && xmlHttp.status == 200)
 	{
+	    if (xmlHttp.responseText == "No such fragment!") {
+		alert("Invalid!");
+		return;
+	    }
 	    // change later, alerts are annoying
-	    //	    currMediaObject.src = xmlHttp.responseText;
 	    alert("Loaded " + obj_id + " successfully!");
 	    global_DOM_Object = fragJSONToDOM(xmlHttp.responseText);
 	    target_parent.appendChild(global_DOM_Object);
@@ -150,3 +156,59 @@ function insertNewLink(obj)
     
     cont.appendChild(JSONtoDOM(JSON.stringify(def_link)));
 }
+
+function editTitleTag(obj)
+{
+    var tForm = document.getElementById("titleTagEdit");
+    tForm.reset();
+    
+    var str = "Modify ";
+        
+    tForm.getElementsByClassName("title")[0].textContent = str + obj.className;
+    document.getElementById("titleTagEditLabel").textContent = obj.className + " Id";
+    tForm.getElementsByClassName("Id")[0].readonly = false;
+    tForm.getElementsByClassName("Id")[0].value = obj.id;
+    tForm.getElementsByClassName("Id")[0].readonly = true;
+
+    var title_elt = obj.getElementsByClassName("title")[0];
+    var tags_list_ul = obj.getElementsByClassName("tags")[0].getElementsByClassName("tags_list")[0].getElementsByTagName("ul")[0];
+    
+    tForm.desc.value = title_elt.textContent;
+    var i;
+    for(i = 0; i < tags_list_ul.children.length; i++) {
+	if (i != (tags_list_ul.children.length - 1))
+	    tForm.med.value += (tags_list_ul.children[i].textContent + " ");
+	else
+	    tForm.med.value += tags_list_ul.children[i].textContent;
+    }
+//    mediaForm.getElementsByClassName("desc")[0].value = obj.getElementsByClassName("desc")[0].textContent;
+    
+    document.getElementsByClassName("overlay")[0].style.display="block";
+    document.getElementById("titleTagEdit").style.display = "block";
+
+}
+
+function modifyTitleTag(tForm)
+{
+    var obj = document.getElementById(tForm.Id.value);
+    var title_elt = obj.getElementsByClassName("title")[0];
+    var tags_list_ul = obj.getElementsByClassName("tags")[0].getElementsByClassName("tags_list")[0].getElementsByTagName("ul")[0];
+
+    title_elt.textContent = tForm.desc.value;
+
+    var tags = tForm.med.value.split(' ');
+    console.log(tags);
+    var s = "";
+    for(var i = 0; i < tags.length; i++) {
+	s += ("<li>" + tags[i] + "</li>" + " ");
+    }
+
+    tags_list_ul.innerHTML = s;
+}
+
+function closeTitleTagForm()
+{
+    document.getElementById("titleTagEdit").style.display = "none";
+    document.getElementsByClassName("overlay")[0].style.display = "none";
+}
+
