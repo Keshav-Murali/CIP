@@ -2,6 +2,9 @@ Items:
 Videos need to be kept from becoming too wide - limit length...use CSS? DONE
 same for images?
 
+LINKS: 
+http/https not there? defaults to localhost/..... - disastrous!
+
 Remember to change post and max upload size limits
 https://www.cyberciti.biz/faq/increase-file-upload-size-limit-in-php-apache-app/
 can see what version of php using ls

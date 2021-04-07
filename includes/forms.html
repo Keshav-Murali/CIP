@@ -101,6 +101,22 @@
   <button type="button" onclick="closeLinkForm()" type="button">Close</button>
 </form>
 
+<form id="saveForm" name="saveForm" method="POST" enctype="multipart/form-data">
+  <!-- will be filled in as needed -->
+</form>
+
+<form id="titleTagEdit" name="titleTagEdit">
+  <h2 class="title"></h2>
+  <label id="titleTagEditLabel" for="Id" name="lbl"></label>
+  <input type="text" readonly name="Id" class="Id"></input><br>
+  <label for="desc">Title: </label>
+  <input type="text" name="desc" class="desc"></input><br>
+  <label for="med">List of tags (space separated)</label>
+  <input type="text" id="med" name="med"></input></br>
+  <button  type="button" onclick="modifyTitleTag(this.parentNode)">Modify</button>
+  <button type="button" onclick="closeTitleTagForm()" type="button">Close</button>
+</form>
+
 
 </div>
 
