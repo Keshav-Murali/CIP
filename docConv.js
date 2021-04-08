@@ -1,66 +1,101 @@
-//import { DOMtoJSObject, DOMToJSON, JSONToDOM, JSONToInnerHTML } from './itemConv.js'
-//export { fragmentToJSON, fragmentToJSObject }
+var currGraph;
 
-function fragmentToJSObject(fragment)
+function documentToJSObject(doc, graph)
 {
-    id = fragment.id;
-    title = fragment.getElementsByClassName("title")[0].textContent;
+    id = doc.id;
+    title = doc.getElementsByClassName("title")[0].textContent;
     
-    tags_list_temp = fragment.getElementsByClassName("tags")[0].getElementsByClassName("tags_list")[0].getElementsByTagName("ul")[0].getElementsByTagName("li");
+    tags_list_temp = doc.getElementsByClassName("tags")[0].getElementsByClassName("tags_list")[0].getElementsByTagName("ul")[0].getElementsByTagName("li");
     tags_list = [];
     
     for(i = 0; i < tags_list_temp.length; i++) {
 	tags_list.push(tags_list_temp[i].textContent);
     }
     
-    innerContents = fragment.getElementsByClassName("content")[0];
-    sections = innerContents.getElementsByTagName("section");
-
-    items = [];
-    
-    for(i = 0; i < sections.length; i++) {
-	items.push(DOMToJSObject(sections[i]));
-    }
-
-    obj = {id: id, title: title, tags : tags_list, items: items};
+    var g = graphlib.json.write(graph);
+    obj = {id: id, title: title, tags : tags_list, graph: g};
     return obj;
 }
 
-
-function fragmentToJSON(fragment)
+function documentToJSON(doc, graph)
 {
-    obj = fragmentToJSObject(fragment);
+    obj = documentToJSObject(doc, graph);
     return (JSON.stringify(obj));
 }
-    
-function fragJSONToDOM(str)
+
+function docJSONToDOM(str)
 {
     obj = JSON.parse(str);
-    console.log("obj", obj);
-    DOMObject = document.createElement("article");
+    currGraph = graphlib.json.read(obj.graph);
+    
+    DOMObject = document.createElement("div");
     DOMObject.id = obj.id;
-    DOMObject.className = "fragment"
+    DOMObject.className = "document"
 
     var s = "<h2 class='title'>" + obj.title + "</h2>" +
-	"<span class='fragid'>id: " + obj.id + " </span>" +
+	"<span class='docid'>id: " + obj.id + " </span>" +
 	"<span class='editIcon'><img src='/icon/edit.png' onclick='editTitleTag(this.parentNode.parentNode)'></span>" + "<br>"
-	s += "<div class='tags'><h3>Tags</h3>" + "<span class='tags_list'><ul></ul></span></div>";
-    s += "<div class='icons'><img src='/icon/save.png' onclick='saveFragment(this.parentNode.parentNode)'> <img src='/icon/inserttext.png' onclick='insertNewText(this.parentNode.parentNode)'> <img src='/icon/insertimage.png' onclick='insertNewImage(this.parentNode.parentNode)'> <img src='/icon/insertaudio.png' onclick='insertNewAudio(this.parentNode.parentNode)'> <img src='/icon/insertvideo.png' onclick='insertNewVideo(this.parentNode.parentNode)'> <img src='/icon/link.png' onclick='insertNewLink(this.parentNode.parentNode)'> </div>"
+    s += "<div class='tags'><h3>Tags</h3>" + "<span class='tags_list'><ul></ul></span></div>";
+    
+
+s += "<div class='icons'><img src='/icon/save.png' onclick='saveDoc(this.parentNode.parentNode)'> <img src='/icon/plus.png' onclick='newFrag(this.parentNode.parentNode)'> <img src='/icon/link.png' onclick='makeEdge(this.parentNode.parentNode)'> </div>"
+
+    
     DOMObject.innerHTML = s;
     target = DOMObject.getElementsByTagName("ul")[0];
     
     for(var i = 0; i < obj.tags.length; i++)
 	target.innerHTML += ("<li>" + obj.tags[i] + "</li>" + " ");
 
-    DOMObject.innerHTML += "<div class='content'></div>";
+/*    DOMObject.innerHTML += "<div class='content'></div>";
 
     target = DOMObject.getElementsByClassName("content")[0];
     // does this need changing? it's stupid
     for(i = 0; i < obj.items.length; i++)
 	target.appendChild(JSONtoDOM(JSON.stringify(obj.items[i])));
-				
+*/				
     return DOMObject;
 }
+
+
+function newFrag(obj)
+{
+//    console.log("Not implemented yet");
+	  generateSaveForm(1);
+	  var sForm = document.getElementById("saveForm");
+	  var elts = sForm.elements;
+	  elts["type[0]"].value = "fragment";
+	  var formData = new FormData(sForm);
+	  
+	  var xmlHttp = new XMLHttpRequest();
+	  xmlHttp.onreadystatechange = function()
+	  {
+	      if(xmlHttp.readyState == 4 && xmlHttp.status == 200)
+	      {
+		  var x = xmlHttp.responseText;
+		  // need to do better than just inserting it in to body
+		  loadFragment(x, document.body);
+		  // need to save it again for id to be updated, what to do?
+	      }
+	  }
+	  xmlHttp.open("post", "/create.php");
+	  xmlHttp.send(formData); 
+
+}
+
+function delDoc()
+{
+    console.log("Not implemented yet");
+}
+
+function makeEdge()
+{
+    console.log("Not implemented yet");
+    
+}
+
+
+/*    
 
    
 
@@ -159,3 +194,4 @@ function closeTitleTagForm()
     document.getElementsByClassName("overlay")[0].style.display = "none";
 }
 
+*/
