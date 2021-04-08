@@ -44,6 +44,12 @@ if ($_POST)
 	$file_name = $tmp;
 //	move_uploaded_file($_FILES['med']['tmp_name'], $file_name);
 	mkdir($file_name, 0777, true);
+
+	if ($name == "f")
+		copy ($_SERVER['DOCUMENT_ROOT'].'/includes/deffrag.json', $file_name.'/content.json');
+	else
+		copy ($_SERVER['DOCUMENT_ROOT'].'/includes/defdoc.json', $file_name.'/content.json');
+	
 	echo str_replace($path, "", $file_name);
 }
 

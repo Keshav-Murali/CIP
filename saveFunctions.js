@@ -34,7 +34,7 @@ function saveFragment(obj)
 	{
 	    // change later, alerts are annoying
 	    //	    currMediaObject.src = xmlHttp.responseText;
-	    alert("Saved " + obj.id + " successfully!");
+	    console.log("Saved " + obj.id + " successfully!");
 	    console.log(xmlHttp.responseText);
 	}
     }
@@ -42,6 +42,7 @@ function saveFragment(obj)
     xmlHttp.send(formData); 
 }
 
+//var loading = 0;
 
 function loadFragment(obj_id, target_parent)
 {
@@ -61,16 +62,37 @@ function loadFragment(obj_id, target_parent)
     {
 	if(xmlHttp.readyState == 4 && xmlHttp.status == 200)
 	{
+//	    loading = 0;
 	    if (xmlHttp.responseText == "No such fragment!") {
 		alert("Invalid!");
 		return;
 	    }
 	    // change later, alerts are annoying
-	    alert("Loaded " + obj_id + " successfully!");
-	    global_DOM_Object = fragJSONToDOM(xmlHttp.responseText);
+	    console.log("Loaded " + obj_id + " successfully!");
+
+	    var str;
+	    var v = JSON.parse(xmlHttp.responseText);
+	    if (v.id != obj_id) {
+		v.id = obj_id;
+		str = JSON.stringify(v);
+	    }
+	    else {
+		str = xmlHttp.responseText;
+	    }
+	    global_DOM_Object = fragJSONToDOM(str);
 	    target_parent.appendChild(global_DOM_Object);
 	}
     }
     xmlHttp.open("post", "/load.php");
     xmlHttp.send(formData);
+}
+
+function saveDoc(obj)
+{
+    console.log("not implemented yet");
+}
+
+function loadDoc()
+{
+    console.log("not implemented yet");
 }

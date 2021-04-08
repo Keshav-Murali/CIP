@@ -9,7 +9,8 @@ article.fragment {
     max-width: 80%;
 }
 
-article div.icons img, article span.editIcon img {
+article div.icons img, article span.editIcon img, div.document span.editIcon img, div.document div.icons img
+{
     width: 20px;
     height: 20px;
     cursor: pointer;
@@ -22,7 +23,7 @@ article div.icons img, article span.editIcon img {
 article {
     border: 1px solid black;
 }
-article div.icons {
+article div.icons, div.document div.icons {
     border: 1px solid blue;
     margin: 5pt;
 }
@@ -46,10 +47,17 @@ section.video video {
     max-width: 25%;
 }
 
-article.fragment div.tags span.tags_list ul {
+article.fragment div.tags span.tags_list ul, div.document div.tags span.tags_list ul{
     list-style-type: none;
 }
 
-article.fragment div.tags span.tags_list ul li {
+article.fragment div.tags span.tags_list ul li, div.document div.tags span.tags_list ul li {
     display: inline
+}
+
+/*     position: sticky;
+cant get it to work
+*/
+div.document {
+    border: 2px solid gold;
 }
