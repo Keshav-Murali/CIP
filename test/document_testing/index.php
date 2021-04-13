@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <title>Test creation</title>
+    <title>Test document</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <!-- include styles -->
     <?php
@@ -40,9 +40,9 @@
       setTimeout(() => {}, 2000);
       var marker = document.getElementById("marker");
       
-      var test_obj = JSON.stringify({"id":"tdoc","title":"Document1","tags":["Tag1","Tag2","Tag3"],"graph":{"options":{"directed":true,"multigraph":false,"compound":false},"nodes":[{"v":"f"}],"edges":[]}});
+      var test_obj = JSON.stringify({"id":"tdoc","title":"Document1","tags":["Tag1","Tag2","Tag3"],"graph":{"options":{"directed":true,"multigraph":false,"compound":false},"nodes":[],"edges":[]}});
 
-      currGraph = graphlib.json.read({"options":{"directed":true,"multigraph":false,"compound":false},"nodes":[{"v":"f"}],"edges":[]});
+      currGraph = graphlib.json.read({"options":{"directed":true,"multigraph":false,"compound":false},"nodes":[],"edges":[]});
       
       function update() {
 	  test_obj = documentToJSON(document.getElementById("tdoc"), currGraph);

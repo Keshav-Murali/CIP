@@ -15,5 +15,7 @@ apache.sh
 *_files
 # ignore uploaded shit
 fragments/**
+# ignore documents
+document/**
 
 
