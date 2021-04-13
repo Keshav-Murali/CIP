@@ -24,6 +24,11 @@
       <button type="button" onclick="viewFD()">Go!</button>
     </form>
 
+    <form>
+      <h1>Create document</h1>
+      <button type="button" onclick="newDoc()">New document</button>
+    </form>
+    
     <form id="deleteDocForm">
       <h1>Delete document</h1>
       <button type="button" onclick="loadList(this.parentNode)">Load list</button><br></br>
@@ -31,6 +36,9 @@
       <button type="button" onclick="delDoc(this.parentNode)">Delete!</button>
     </form>
 
+    <!-- include scripts -->
+    <?php                                                                   
+     require $_SERVER['DOCUMENT_ROOT'].'/includes/scripts.html';                ?>
     
     <script>
       var form1 = document.getElementById("viewForm");
