@@ -75,6 +75,7 @@ function newFrag(obj)
 		  var x = xmlHttp.responseText;
 		  // need to do better than just inserting it in to body
 		  loadFragment(x, document.body);
+		  currGraph.setNode(x, "normal");
 		  // need to save it again for id to be updated, what to do?
 	      }
 	  }
@@ -83,18 +84,53 @@ function newFrag(obj)
 
 }
 
-function delDoc()
+function removeNode(fragment)
 {
-    console.log("Not implemented yet");
+    currGraph.removeNode(fragment.id);
+    fragment.remove();
+    console.log("Done removing");
+    console.log("Graph is" + JSON.stringify(graphlib.json.write(currGraph)));
 }
 
+function newDoc()
+{
+
+    generateSaveForm(1);
+    var sForm = document.getElementById("saveForm");
+    var elts = sForm.elements;
+    elts["type[0]"].value = "document";
+    var formData = new FormData(sForm);
+    
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function()
+    {
+	if(xmlHttp.readyState == 4 && xmlHttp.status == 200)
+	{
+	    marker.textContent = xmlHttp.responseText;
+	}
+    }
+    xmlHttp.open("post", "/create.php");
+    xmlHttp.send(formData); 
+    
+}
+
+/*
+Impl in main index.php
+function delDoc(id)
+{
+    
+}
+*/
 function makeEdge()
 {
     console.log("Not implemented yet");
     
 }
 
-
+function removeEdge()
+{
+    console.log("Not implemented yet");
+}
 /*    
 
    
