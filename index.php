@@ -36,14 +36,20 @@
       <button type="button" onclick="delDoc(this.parentNode)">Delete!</button>
     </form>
 
-	<form method="GET">
-	<h1>Search</h1>
-	<input type="text" name="keyword" id="keyword"><br>
-	<input type="radio" name="search" id="fragSearch">Fragment</input>
-	<input type="radio" name="search" id="docSearch">Document</input><br><br>
-	<button type="button" onclick="search()">Search</button>
-	</form>
-	<div id="sresult"></div>
+    <form name="searchForm" id="searchForm">
+      <h1>Search</h1>
+      <label for="keyword">Search term</label>
+      <input type="text" name="keyword" id="keyword"><br>
+      <label>Choose the search type</labeL> 
+      <input type="radio" name="search" value="title">Title</input>
+      <input type="radio" name="search" value="tag">Tag</input>
+      <input type="radio" name="search" value="full">Content</input><br><br>
+      
+      <button type="button" onclick="search_function()">Search</button>
+    </form>
+
+    <h1>Search results</h1>
+    <div id="sresult"></div>
     <!-- include scripts -->
     <?php                                                                   
      require $_SERVER['DOCUMENT_ROOT'].'/includes/scripts.html';                ?>
@@ -51,7 +57,7 @@
     <script>
       var form1 = document.getElementById("viewForm");
       var form2 = document.getElementById("deleteDocForm");
-      
+      var form3 = document.getElementById("searchForm");
       function loadList(node)
       {
 	  var f;
@@ -99,16 +105,6 @@
 	  f.submit();
       }
 
-	  function search()
-      {
-	  var f = form1;
-	  if (f.choice.value == "fragment")
-	      f.action = "/searchFrag.php";
-	  else
-	      f.action = "/searchDoc.php";
-	  f.submit();
-      }
-
       function delDoc(node)
       {
 	  // reusing the same little form since we need only one input
@@ -128,6 +124,134 @@
 	  xmlHttp.open("post", "/delDoc.php");
 	  xmlHttp.send(formData); 	  
       }
+
+      function gen_search_result(type, id)
+      {
+	  var target_location = document.getElementById("sresult");
+	  var l = document.createElement("a");
+	  var target_link = "/view";
+	  if (type == "fragment")
+	      target_link += "Frag.php?list=" + id;
+	  else
+	      target_link += "Doc.php?list=" + id;
+	  l.href = target_link;
+	  l.textContent = type + " " + id;
+	  target_location.appendChild(l);
+	  target_location.innerHTML += "<br>";
+      }
+      
+      function search_function()
+      {
+	  var xmlHttp = new XMLHttpRequest();
+	  var target_location = document.getElementById("sresult");
+	  target_location.innerHTML = "";
+	  xmlHttp.onreadystatechange = function()
+	  {
+	      if(xmlHttp.readyState == 4 && xmlHttp.status == 200)
+	      {
+		  // first we get the whole data
+		  var data = JSON.parse(xmlHttp.responseText);
+		  console.log(data);
+		  var countf = data.countf;
+		  var countd = data.countd;
+		  var total = countf + countd;
+		  var found = false;
+		  
+		  var type = form3.search.value;
+		  var val = form3.keyword.value;
+
+		  if (val == undefined)
+		      return;
+		  
+		  console.log(type);
+
+		  for(var i = 0; i < total; i++) {
+		      var obj_type;
+		      if (i >= countf)
+			  obj_type = "document";
+		      else
+			  obj_type = "fragment";
+
+		      if (type == "full" && obj_type == "document")
+			  continue;
+
+		      var t = JSON.parse(data[i]);
+//		      console.log(i + " " + t);
+		      
+		      if (type == "tag") {
+			  console.log(t.tags);
+			  for (var j = 0; j < t.tags.length; j++) {
+			      var pos = t.tags[j].indexOf(val)
+			      if (pos != -1) {
+				  gen_search_result(obj_type, t.id);
+				  found = true;
+				  break;
+			      }
+			  }
+		      }
+
+		      else if (type == "title") {
+			  console.log(t.title);
+			  var pos = t.title.indexOf(val)
+			  if (pos != -1) {
+			      gen_search_result(obj_type, t.id);
+			      found = true;
+			      break;
+			  }
+		      }
+
+		      else if (type == "full") {
+			  var local_found = false;
+			  console.log(t.items);
+			  for(var j = 0; j < t.items.length && local_found == false; j++) {
+			      var curr = t.items[j];
+			      if (curr.type == "text") {
+				  var tdiv = document.createElement("DIV");
+				  tdiv.innerHTML = curr.content;
+				  console.log(tdiv.innerText);
+				  var pos = tdiv.innerText.indexOf(val);
+				  if (pos != -1) {
+				      gen_search_result(obj_type, t.id);
+				      found = true;
+				      local_found = true;
+				  }
+			      }
+			      
+			      else if (curr.type == "audio" || curr.type == "image" || curr.type == "") {
+				  var pos = curr.desc.indexOf(val);
+				  if (pos != -1) {
+				      gen_search_result(obj_type, t.id);
+				      found = true;
+				      local_found = true;
+				  }
+			      }
+
+			      else if (curr.type == "link") {
+				  var pos = curr.original_text.indexOf(val);
+				  if (pos != -1) {
+				      gen_search_result(obj_type, t.id);
+				      found = true;
+				      local_found = true;
+				  }
+
+			      }
+			      
+			  }
+		      }
+		  }
+
+		  if (found == false)
+		      target_location.innerHTML = "no results!";
+		  
+	      }
+	  }
+//	      console.log("here first!");
+	      xmlHttp.open("GET", "/loadAll.php");
+//	      console.log("got here");
+	      xmlHttp.send();
+//	      console.log("got here too");
+      }
+
 
 </script>
 
