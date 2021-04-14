@@ -36,6 +36,14 @@
       <button type="button" onclick="delDoc(this.parentNode)">Delete!</button>
     </form>
 
+	<form method="GET">
+	<h1>Search</h1>
+	<input type="text" name="keyword" id="keyword"><br>
+	<input type="radio" name="search" id="fragSearch">Fragment</input>
+	<input type="radio" name="search" id="docSearch">Document</input><br><br>
+	<button type="button" onclick="search()">Search</button>
+	</form>
+	<div id="sresult"></div>
     <!-- include scripts -->
     <?php                                                                   
      require $_SERVER['DOCUMENT_ROOT'].'/includes/scripts.html';                ?>
@@ -88,6 +96,16 @@
 	      f.action = "/viewFrag.php";
 	  else
 	      f.action = "/viewDoc.php";
+	  f.submit();
+      }
+
+	  function search()
+      {
+	  var f = form1;
+	  if (f.choice.value == "fragment")
+	      f.action = "/searchFrag.php";
+	  else
+	      f.action = "/searchDoc.php";
 	  f.submit();
       }
 
