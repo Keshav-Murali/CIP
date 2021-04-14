@@ -38,7 +38,7 @@ function docJSONToDOM(str)
     s += "<div class='tags'><h3>Tags</h3>" + "<span class='tags_list'><ul></ul></span></div>";
     
 
-s += "<div class='icons'><img src='/icon/save.png' onclick='saveDoc(this.parentNode.parentNode)'> <img src='/icon/plus.png' onclick='newFrag(this.parentNode.parentNode)'> <img src='/icon/link.png' onclick='makeEdge(this.parentNode.parentNode)'> </div>"
+s += "<div class='icons'><img src='/icon/save.png' onclick='saveDocument(this.parentNode.parentNode)'> <img src='/icon/plus.png' onclick='newFrag(this.parentNode.parentNode, \"normal\")'> <img src='/icon/plust.png' onclick='openTransclusionForm(this.parentNode.parentNode)'> <img src='/icon/link.png' onclick='openEdgeForm()'> <img src='/icon/linkx.png' onclick='openEdgeForm()'></div>"
 
     
     DOMObject.innerHTML = s;
@@ -58,30 +58,219 @@ s += "<div class='icons'><img src='/icon/save.png' onclick='saveDoc(this.parentN
 }
 
 
-function newFrag(obj)
+function newFrag(obj, type)
 {
-//    console.log("Not implemented yet");
-	  generateSaveForm(1);
-	  var sForm = document.getElementById("saveForm");
-	  var elts = sForm.elements;
-	  elts["type[0]"].value = "fragment";
-	  var formData = new FormData(sForm);
-	  
-	  var xmlHttp = new XMLHttpRequest();
-	  xmlHttp.onreadystatechange = function()
-	  {
-	      if(xmlHttp.readyState == 4 && xmlHttp.status == 200)
-	      {
-		  var x = xmlHttp.responseText;
-		  // need to do better than just inserting it in to body
-		  loadFragment(x, document.body);
-		  currGraph.setNode(x, "normal");
-		  // need to save it again for id to be updated, what to do?
-	      }
-	  }
-	  xmlHttp.open("post", "/create.php");
-	  xmlHttp.send(formData); 
+    //    console.log("Not implemented yet");
+    if (type == "normal") {
+	generateSaveForm(1);
+	var sForm = document.getElementById("saveForm");
+	var elts = sForm.elements;
+	elts["type[0]"].value = "fragment";
+	var formData = new FormData(sForm);
+	
+	var xmlHttp = new XMLHttpRequest();
+	xmlHttp.onreadystatechange = function()
+	{
+	    if(xmlHttp.readyState == 4 && xmlHttp.status == 200)
+	    {
+		var x = xmlHttp.responseText;
+		// need to do better than just inserting it in to body, not doing it at all kek
+//		loadFragment(x, document.body);
+		currGraph.setNode(x, "normal");
+		// need to save it again for id to be updated, what to do?
+	    }
+	}
+	xmlHttp.open("post", "/create.php");
+	xmlHttp.send(formData);
+    }
+    else {
+	currGraph.setNode(obj, "transclusion");
+    }
+}
 
+
+function openTransclusionForm(obj)
+{
+    var tForm = document.getElementById("transclusionForm");
+    tForm.reset();
+
+    var temp = currGraph.nodes();
+    // disgusting code duplication
+    var other = [];
+    var diff = [];
+
+    var tyForm = document.getElementById("typeForm");
+    tyForm.type.value = "fragment";
+
+    var formData = new FormData(tyForm);
+    var xmlHttp = new XMLHttpRequest();
+
+    xmlHttp.onreadystatechange = function()
+    {
+	if(xmlHttp.readyState == 4 && xmlHttp.status == 200)
+	{
+	    tForm.list.innerHTML = "";
+	    var obj = JSON.parse(xmlHttp.responseText);
+	    for (let key in obj) {
+		other.push(obj[key]);
+	    }
+	    diff = other.filter(x => !temp.includes(x));
+	    
+	    for(var i = 0; i < diff.length; i++) {
+		var o = document.createElement("option");
+		o.value = diff[i];
+		o.innerText = diff[i];
+		tForm.list.appendChild(o);
+	    }
+	}
+	
+	document.getElementsByClassName("overlay")[0].style.display="block";
+	tForm.style.display = "block";
+    }
+    xmlHttp.open("post", "/find.php");
+    xmlHttp.send(formData);
+    
+}
+
+
+function newTransclusion()
+{
+    var tForm = document.getElementById("transclusionForm");
+    var val = tForm.list.value;
+    newFrag(val, "transclusion");
+}
+
+function closeTransclusionForm()
+{
+    document.getElementById("transclusionForm").style.display = "none";
+    document.getElementsByClassName("overlay")[0].style.display = "none";
+}
+
+function openEdgeForm()
+{
+    var eForm = document.getElementById("edgeForm");
+    eForm.reset();
+
+    var edges = currGraph.edges();
+    console.log(edges);
+    
+    eForm.list1.innerHTML = eForm.list2.innerHTML = eForm.list3.innerHTML = "";
+    var nodes = currGraph.nodes();
+    console.log(nodes);
+
+    var edges = currGraph.edges();
+    for(var i = 0; i < edges.length; i++) {
+	var o = document.createElement("option");
+	o.value = o.innerHTML = edges[i].v + "," + edges[i].w;
+	eForm.list1.appendChild(o);
+    }
+    for (var i = 0; i < nodes.length; i++) {
+	var o1 = document.createElement("option");
+	var o2 = document.createElement("option");
+	o1.value = o1.innerHTML = o2.value = o2.innerHTML = nodes[i];
+	eForm.list2.appendChild(o1);
+	eForm.list3.appendChild(o2);
+    }
+    
+    document.getElementsByClassName("overlay")[0].style.display="block";
+    eForm.style.display = "block";
+}
+
+
+function closeEdgeForm()
+{
+    document.getElementById("edgeForm").style.display = "none";
+    document.getElementsByClassName("overlay")[0].style.display = "none";
+}
+
+function makeEdge()
+{
+    var eForm = document.getElementById("edgeForm");
+    if (eForm.list2.value == eForm.list3.value) {
+	alert("Don't make self loops!");
+	return;
+    }
+
+    currGraph.setEdge(eForm.list2.value, eForm.list3.value);
+    closeEdgeForm();
+}
+
+function deleteEdge()
+{
+    var eForm = document.getElementById("edgeForm");
+    var arr = eForm.list1.value.split(",");
+    currGraph.removeEdge(arr[0], arr[1]);
+    closeEdgeForm();
+}
+
+function loadAllEdges(obj)
+{
+    var id = obj.id;
+    var edges = currGraph.outEdges(id);
+    
+    if (edges.length == 0)
+	return;
+    
+    console.log(edges);
+    console.log(obj);
+    var tmp;
+
+    if (obj.parentNode != document.body)
+	tmp = obj.parentNode.parentNode;
+    else
+	tmp = obj;
+    console.log("tmp " + tmp.className);
+    deleteOthers(document.body, tmp, marker);
+
+    // duplication was unavoidable
+    console.log("edges length: " + edges.length);
+    
+    generateSaveForm(edges.length);
+    var sForm = document.getElementById("saveForm");
+    var elts = sForm.elements;
+
+    for(var i = 0; i < edges.length; i++) {
+	elts["type["+i+"]"].value = "fragment";
+	elts["id["+i+"]"].value = edges[i].w;
+	elts["content["+i+"]"].value = "";
+    }
+    //  console.log(sForm.innerHTML);
+
+    var formData = new FormData(sForm);
+
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function()
+    {
+	if(xmlHttp.readyState == 4 && xmlHttp.status == 200)
+	{
+	    console.log("Loaded edges of" + obj.id + " successfully!");
+	    var list = JSON.parse(xmlHttp.responseText);
+	    
+	    var slideContainer = document.createElement("div");
+	    slideContainer.className = "slideshow-container";
+	    // is this needed?
+	    //slideContainer.innerHTML = "<p id='slide-marker'></p>"
+
+	    for(var i = 0; i < list.length; i++) {
+		var temp = JSON.parse(list[i]);
+		console.log("ids " + temp.id + " " + edges[i].w);
+		temp.id = edges[i].w;
+		
+		var d = document.createElement("div");
+		d.className = "mySlides fade";
+		// number Text needed?
+		d.appendChild(fragJSONToDOM(JSON.stringify(temp)));
+		slideContainer.appendChild(d);
+
+		document.body.insertBefore(slideContainer, marker);
+	    }
+	    
+	    slideContainer.innerHTML +=  "<a class='prev' onclick='plusSlides(-1, this.parentNode)'>&#10094;</a><a class='next' onclick='plusSlides(1, this.parentNode)'>&#10095;</a>"
+	    showSlides(0, slideContainer)
+	}
+    }
+    xmlHttp.open("post", "/load.php");
+    xmlHttp.send(formData);
 }
 
 function removeNode(fragment)
@@ -94,7 +283,6 @@ function removeNode(fragment)
 
 function newDoc()
 {
-
     generateSaveForm(1);
     var sForm = document.getElementById("saveForm");
     var elts = sForm.elements;
@@ -106,9 +294,10 @@ function newDoc()
     {
 	if(xmlHttp.readyState == 4 && xmlHttp.status == 200)
 	{
-	    marker.textContent = xmlHttp.responseText;
+	    window.location.href = "viewDoc.php?list=" + xmlHttp.responseText;
 	}
     }
+    
     xmlHttp.open("post", "/create.php");
     xmlHttp.send(formData); 
     
@@ -121,16 +310,7 @@ function delDoc(id)
     
 }
 */
-function makeEdge()
-{
-    console.log("Not implemented yet");
-    
-}
 
-function removeEdge()
-{
-    console.log("Not implemented yet");
-}
 /*    
 
    

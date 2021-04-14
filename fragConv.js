@@ -46,6 +46,7 @@ function fragJSONToDOM(str)
 	"<span class='editIcon'><img src='/icon/edit.png' onclick='editTitleTag(this.parentNode.parentNode)'></span>" + "<br>"
 	s += "<div class='tags'><h3>Tags</h3>" + "<span class='tags_list'><ul></ul></span></div>";
     s += "<div class='icons'><img src='/icon/save.png' onclick='saveFragment(this.parentNode.parentNode)'> <img src='/icon/inserttext.png' onclick='insertNewText(this.parentNode.parentNode)'> <img src='/icon/insertimage.png' onclick='insertNewImage(this.parentNode.parentNode)'> <img src='/icon/insertaudio.png' onclick='insertNewAudio(this.parentNode.parentNode)'> <img src='/icon/insertvideo.png' onclick='insertNewVideo(this.parentNode.parentNode)'> <img src='/icon/link.png' onclick='insertNewLink(this.parentNode.parentNode)'> <img src='/icon/delete.png' onclick='removeNode(this.parentNode.parentNode)'></div>"
+    
     DOMObject.innerHTML = s;
     target = DOMObject.getElementsByTagName("ul")[0];
     
@@ -58,7 +59,8 @@ function fragJSONToDOM(str)
     // does this need changing? it's stupid
     for(i = 0; i < obj.items.length; i++)
 	target.appendChild(JSONtoDOM(JSON.stringify(obj.items[i])));
-				
+    var fin = "<button type='button' onclick='loadAllEdges(this.parentNode)'>Load gallery below</button>";
+    DOMObject.innerHTML += fin;
     return DOMObject;
 }
 

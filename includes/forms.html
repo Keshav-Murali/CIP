@@ -124,15 +124,23 @@
 <form id="transclusionForm" name="transclusionForm">
   <h1>Add a transcluded fragment to document</h1>
   <label for="list">Fragment</label>
-  <select name="list"></select>
-  <button type="button" onclick="newTransclusion()">Close</button>
+  <select name="list"></select><br>
+  <button type="button" onclick="newTransclusion()">Add</button><br>
   <button type="button" onclick="closeTransclusionForm()">Close</button>
 </form>
 
-<form id="makeEdgeForm" name="makeEdgeForm">
-</form>
-
-<form id="removeEdgeForm" name="removeEdgeForm">
+<form id="edgeForm" name="edgeForm">
+  <h1>Existing edges</h1>
+  <select name="list1"></select><br>
+  <button type="button" onclick="deleteEdge()">Remove edge!</button><br>
+  <hr>
+  
+  <h1>Make edge (no self loops)</h1>
+  <select name="list2"></select><br>
+  <select name="list3"></select><br>
+  
+  <button type="button" onclick="makeEdge()">Make edge!</button><br>
+  <button type="button" onclick="closeEdgeForm()">Close</button></br>
 </form>
 
 </div>
