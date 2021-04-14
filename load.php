@@ -5,8 +5,13 @@ error_reporting(E_ALL);
 
         if($_POST)
         {
+		$count = $_POST['count'];
+		$arr = [];
+		
+		for($i = 0; $i < $count; $i++) {
+
 		$ft = "";
-	       if ($_POST['type'][0] == "fragment") {
+	       if ($_POST['type'][$i] == "fragment") {
 	     	  $ft = "/fragments";
 		}
 		
@@ -14,7 +19,7 @@ error_reporting(E_ALL);
 		  $ft = "/documents";
 		}
 
-            $fpath= $_SERVER['DOCUMENT_ROOT'].$ft."/".$_POST['id'][0];
+            $fpath= $_SERVER['DOCUMENT_ROOT'].$ft."/".$_POST['id'][$i];
    	    $file_name = $fpath."/content.json";
 
 	    if (!file_exists($fpath)) {
@@ -26,6 +31,9 @@ error_reporting(E_ALL);
 	       exit("No such fragment!");
 	    }	
 	    $contents = file_get_contents($file_name);
-	    echo $contents;
-        }
+	    $arr[] = $contents;    
+	}
+	echo json_encode($arr);
+	
+	}
 ?>

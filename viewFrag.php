@@ -38,11 +38,12 @@
      ?>
 
     <!--    <button type="button" onclick="testLoadFragment(document.getElementById('test_frag_id').value)">Load</button> -->
-    
+    <p id="marker"></p>
     <!-- Driver here -->
     <script>
       var str = <?php echo "\"".$_GET['list']."\"" ?>;
-      loadFragment(str, document.body);
+      // insert before marker
+      loadFragment(str, document.getElementById("marker"));
       
     </script>
 
