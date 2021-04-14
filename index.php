@@ -10,46 +10,59 @@
      ?>
   </head>
 
-  <body>
+  <body id="bmain">
     <!-- include forms -->
     <?php
      require $_SERVER['DOCUMENT_ROOT'].'/includes/forms.html';
      ?>
-    <form method="GET" id="viewForm">
-      <h1>View</h1>
-      <input type="radio" name="choice" value="fragment">Fragment</input>
-      <input type="radio" name="choice" value="document">Document</input><br><br>
-      <button type="button" onclick="loadList(this.parentNode)">Load list</button><br></br>
-      <select name="list" id="list"></select><br><br>
-      <button type="button" onclick="viewFD()">Go!</button>
-    </form>
-
-    <form>
-      <h1>Create document</h1>
-      <button type="button" onclick="newDoc()">New document</button>
-    </form>
-    
-    <form id="deleteDocForm">
-      <h1>Delete document</h1>
-      <button type="button" onclick="loadList(this.parentNode)">Load list</button><br></br>
-      <select name="list" id="list"></select><br><br>
-      <button type="button" onclick="delDoc(this.parentNode)">Delete!</button>
-    </form>
-
-    <form name="searchForm" id="searchForm">
-      <h1>Search</h1>
-      <label for="keyword">Search term</label>
-      <input type="text" name="keyword" id="keyword"><br>
-      <label>Choose the search type</labeL> 
-      <input type="radio" name="search" value="title">Title</input>
-      <input type="radio" name="search" value="tag">Tag</input>
-      <input type="radio" name="search" value="full">Content</input><br><br>
-      
-      <button type="button" onclick="search_function()">Search</button>
-    </form>
-
-    <h1>Search results</h1>
-    <div id="sresult"></div>
+	 <h1 class="head1 w1">KNOWLEDGE ORGANIZER</h1>
+	 <ul class="tabs w1">
+	 <li data-tab-target="#view" class="active tab">View</li>
+	 <li data-tab-target="#create" class="tab">Create</li>
+	 <li data-tab-target="#search" class="tab">Search</li>
+	 <li data-tab-target="#delete" class="tab">Delete</li>
+	 </ul>
+	 <div class="tab-content">
+	<article id='view' class="active" data-tab-content>
+		<form method="GET" id="viewForm">
+			<h1 class="head1">View</h1>
+			<input type="radio" name="choice" value="fragment">Fragment</input>
+			<input type="radio" name="choice" value="document">Document</input><br><br>
+			<button type="button" class="bu4" onclick="loadList(this.parentNode)">Load list</button><br></br>
+			<select name="list" id="list"></select><br><br>
+			<button type="button" class="bu4" onclick="viewFD()">Go!</button>
+		</form>
+	</article>
+	<article id='create' data-tab-content>
+		<form>
+			<h1 class="head1">Create document</h1>
+			<button type="button"  class="bu4" onclick="newDoc()">New document</button>
+		</form>
+	</article>
+	<article id='delete' data-tab-content>
+		<form id="deleteDocForm">
+			<h1 class="head1">Delete document</h1>
+			<button type="button" class="bu4" onclick="loadList(this.parentNode)">Load list</button><br></br>
+			<select name="list" id="list"></select><br><br>
+			<button type="button" class="bu4" onclick="delDoc(this.parentNode)">Delete!</button>
+		</form>
+	</article>
+	<article id='search' data-tab-content>
+		<form name="searchForm" id="searchForm">
+			<h1 class="head1">Search</h1>
+			<label for="keyword">Search term</label>
+			<input type="text" name="keyword" id="keyword"><br>
+			<label>Choose the search type</labeL> 
+			<input type="radio" name="search" value="title">Title</input>
+			<input type="radio" name="search" value="tag">Tag</input>
+			<input type="radio" name="search" value="full">Content</input><br><br>
+			
+			<button type="button" class="bu4" onclick="search_function()">Search</button>
+		</form>
+		<h1 class="head1">Search results</h1>
+		<div id="sresult"></div>
+	</div>
+	</article>
     <!-- include scripts -->
     <?php                                                                   
      require $_SERVER['DOCUMENT_ROOT'].'/includes/scripts.html';                ?>
