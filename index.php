@@ -217,7 +217,7 @@
 				  }
 			      }
 			      
-			      else if (curr.type == "audio" || curr.type == "image" || curr.type == "") {
+			      else if (curr.type == "audio" || curr.type == "image" || curr.type == "video") {
 				  var pos = curr.desc.indexOf(val);
 				  if (pos != -1) {
 				      gen_search_result(obj_type, t.id);
